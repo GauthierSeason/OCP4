@@ -1,47 +1,45 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.*;
 
 public class AnalyticsCounter {
 
 	public AnalyticsCounter() {
 	 }
 
-	private  int headacheCount = 0;	// initialize to 0
-	private  int rashCount = 0;		// initialize to 0
-	private  int pupilCount = 0;		// initialize to 0
-	
+	List<String> list_symptoms = new ArrayList<String>();
+	TreeMap<String, Integer> sortedSymptoms = new TreeMap<String, Integer>(); 
+
 	public void Counter() throws Exception {
 		// first get input
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
-
-
-		int headCount = 0;	// counts headaches
-		while (line != null) {
-
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
-
-			line = reader.readLine();	// get another symptom
-		}
-		reader.close();
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
+		ReadSymptomDataFromFile Reader = new ReadSymptomDataFromFile("symptoms.txt");
+		list_symptoms = Reader.GetSymptoms();
 	}
+
+	public void SymptomsMap() throws Exception {
+		
+		for (String lvSymptom : list_symptoms) {
+
+			int count = sortedSymptoms.containsKey(lvSymptom) ? sortedSymptoms.get(lvSymptom) : 0;
+			sortedSymptoms.put(lvSymptom, count + 1);
+
+		}
+	}
+		// next generate output
+
+		public void Writer() throws Exception {
+			FileWriter writer = new FileWriter ("result.out");
+
+			for(Map.Entry<String,Integer> entry : sortedSymptoms.entrySet()) {
+				String key = entry.getKey();
+				Integer value = entry.getValue();
+			  
+				writer.write(key + " : " + value + "\n");
+			  }
+			writer.close();
+		}
+	
 }

@@ -6,5 +6,10 @@ public class SymptomsCounter {
 
         AnalyticsCounter Counter = new AnalyticsCounter();
         Counter.Counter();
+        Counter.SymptomsMap();
+        Counter.Writer();
+
+
+
 	}
 }
