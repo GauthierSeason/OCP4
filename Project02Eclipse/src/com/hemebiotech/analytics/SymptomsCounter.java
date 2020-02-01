@@ -1,15 +1,25 @@
 package com.hemebiotech.analytics;
 
-public class SymptomsCounter {
+/**
+ * Simple brute force implementation
+ *
+ */
 
-	public static void main(String []args) throws Exception {
-
-        AnalyticsCounter Counter = new AnalyticsCounter();
-        Counter.Counter();
-        Counter.SymptomsMap();
-        Counter.Writer();
-
-
-
+public class SymptomsCounter 
+{
+        public static void main(String []args)
+        {
+                try 
+                {
+                        AnalyticsCounter counter = new AnalyticsCounter();
+                        counter.reader();
+                        counter.symptomsMap();
+                        counter.writer();
+                        
+                } catch (Exception e) {
+                        System.out.println("Un problème a été détecté :" + e);
+			System.exit(-1);
+                }
+                
 	}
 }
