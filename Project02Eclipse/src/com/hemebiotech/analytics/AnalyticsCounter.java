@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.*;
 
 /**
- * TO DO
+ * Object that can read, count and order, and write a symptom list.
  *
  */
 public class AnalyticsCounter 
@@ -20,18 +20,17 @@ public class AnalyticsCounter
 	private TreeMap<String, Integer> sortedSymptoms = new TreeMap<String, Integer>(); 
 
 	/**
-	 * Simple brute force implementation
+	 * Read the symptoms from a file.
 	 *
 	 */
 	public void reader() throws Exception 
 	{
-		// first get input
 		ReadSymptomDataFromFile reader = new ReadSymptomDataFromFile("symptoms.txt");
 		listSymptoms = reader.getSymptoms();
 	}
 
 	/**
-	 * Simple brute force implementation
+	 * Count and order a symptom list.
 	 *
 	 */
 	public void symptomsMap() throws Exception 
@@ -44,7 +43,7 @@ public class AnalyticsCounter
 	}
 		
 	/**
-	 * Simple brute force implementation
+	 * Write a symptom and occurrence map to a file.
 	 *
 	 */
 	public void writer() throws Exception 

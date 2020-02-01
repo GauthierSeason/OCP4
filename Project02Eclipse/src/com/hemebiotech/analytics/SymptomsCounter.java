@@ -1,7 +1,8 @@
 package com.hemebiotech.analytics;
 
 /**
- * Simple brute force implementation
+ * Instantiates an AnalyticCounter() object 
+ * and successively calls several methods of this object.
  *
  */
 
