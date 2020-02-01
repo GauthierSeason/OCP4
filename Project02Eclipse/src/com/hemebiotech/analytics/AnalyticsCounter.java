@@ -1,43 +1,60 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.*;
 
-public class AnalyticsCounter {
-	private static int headacheCount = 0;	// initialize to 0
-	private static int rashCount = 0;		// initialize to 0
-	private static int pupilCount = 0;		// initialize to 0
-	
-	public static void main(String args[]) throws Exception {
-		// first get input
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
+/**
+ * Object that can read, count and order, and write a symptom list.
+ *
+ */
+public class AnalyticsCounter 
+{
 
-		int i = 0;	// set i to 0
-		int headCount = 0;	// counts headaches
-		while (line != null) {
-			i++;	// increment i
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
-
-			line = reader.readLine();	// get another symptom
-		}
-		
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
+	public AnalyticsCounter() 
+	{
 	}
+
+	private List<String> listSymptoms = new ArrayList<String>();
+	private TreeMap<String, Integer> sortedSymptoms = new TreeMap<String, Integer>(); 
+
+	/**
+	 * Read the symptoms from a file.
+	 *
+	 */
+	public void reader() throws Exception 
+	{
+		ReadSymptomDataFromFile reader = new ReadSymptomDataFromFile("symptoms.txt");
+		listSymptoms = reader.getSymptoms();
+	}
+
+	/**
+	 * Count and order a symptom list.
+	 *
+	 */
+	public void symptomsMap() throws Exception 
+	{
+		for (String lvSymptom : listSymptoms) 
+		{
+			int count = sortedSymptoms.containsKey(lvSymptom) ? sortedSymptoms.get(lvSymptom) : 0;
+			sortedSymptoms.put(lvSymptom, count + 1);
+		}
+	}
+		
+	/**
+	 * Write a symptom and occurrence map to a file.
+	 *
+	 */
+	public void writer() throws Exception 
+	{
+		FileWriter writer = new FileWriter ("result.out");
+		for (Map.Entry<String,Integer> entry : sortedSymptoms.entrySet()) 
+		{
+			String key = entry.getKey();
+			Integer value = entry.getValue();
+			writer.write(key + " : " + value + "\n");
+		}
+		writer.close();
+	}	
 }
